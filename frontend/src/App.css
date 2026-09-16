@@ -1,0 +1,286 @@
+
+/* =========================
+   全局重置
+========================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #0d1117;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0d1117;
+}
+
+/* 防止元素尺寸导致横向滚动 */
+* {
+  box-sizing: border-box;
+}
+
+/* =========================
+   页面
+========================= */
+
+.login-page {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(56, 139, 253, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(137, 87, 229, 0.18),
+      transparent 35%
+    ),
+    #0d1117;
+}
+
+/* =========================
+   背景光晕
+========================= */
+
+.glow {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(80px);
+
+  pointer-events: none;
+}
+
+.glow-1 {
+  width: 300px;
+  height: 300px;
+
+  background: rgba(31, 111, 235, 0.28);
+
+  top: -100px;
+  left: -100px;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+
+  background: rgba(137, 87, 229, 0.22);
+
+  right: -120px;
+  bottom: -100px;
+}
+
+.glow-3 {
+  width: 200px;
+  height: 200px;
+
+  background: rgba(46, 160, 67, 0.12);
+
+  right: 20%;
+  top: 10%;
+}
+
+/* =========================
+   Glass 卡片
+========================= */
+
+.glass-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 430px;
+
+  padding: 38px 40px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.055);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  z-index: 2;
+}
+
+/* =========================
+   Logo
+========================= */
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 28px;
+
+  font-size: 24px;
+  font-weight: 600;
+
+  color: #f0f6fc;
+}
+
+.logo svg {
+  font-size: 30px;
+}
+
+/* =========================
+   标题
+========================= */
+
+.title {
+  text-align: center;
+
+  margin-bottom: 6px !important;
+
+  color: #f0f6fc !important;
+}
+
+.subtitle {
+  display: block;
+
+  text-align: center;
+
+  margin-bottom: 28px;
+
+  color: #8b949e !important;
+}
+
+/* =========================
+   Ant Design 表单
+========================= */
+
+.glass-card .ant-form-item-label > label {
+  color: #c9d1d9;
+}
+
+.glass-card .ant-input,
+.glass-card .ant-input-password {
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(255, 255, 255, 0.14);
+
+  color: #f0f6fc;
+}
+
+.glass-card .ant-input::placeholder {
+  color: #6e7681;
+}
+
+.glass-card .ant-input:hover,
+.glass-card .ant-input-password:hover {
+  border-color: rgba(88, 166, 255, 0.7);
+}
+
+.glass-card .ant-input:focus,
+.glass-card .ant-input-password:focus-within {
+  border-color: #58a6ff;
+
+  box-shadow:
+    0 0 0 2px rgba(56, 139, 253, 0.15);
+}
+
+.glass-card .ant-input-prefix {
+  color: #8b949e;
+}
+
+/* =========================
+   登录按钮
+========================= */
+
+.submit-button {
+  height: 46px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  background: #238636;
+
+  box-shadow:
+    0 8px 25px rgba(35, 134, 54, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.submit-button:hover {
+  transform: translateY(-1px);
+
+  background: #2ea043 !important;
+
+  box-shadow:
+    0 12px 30px rgba(46, 160, 67, 0.35);
+}
+
+/* =========================
+   Divider
+========================= */
+
+.glass-card .ant-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.switch-mode {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  color: #8b949e;
+}
+
+/* =========================
+   手机适配
+========================= */
+
+@media (max-width: 500px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .glass-card {
+    padding: 30px 24px;
+
+    border-radius: 16px;
+  }
+
+  .logo {
+    margin-bottom: 22px;
+  }
+}
