@@ -69,10 +69,10 @@ function LoginedPage() {
               size="large"
               block
               icon={<HomeOutlined />}
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/ourpage')}
               className="action-button"
             >
-              返回首页
+              进入首页
             </Button>
             <Button
               size="large"
