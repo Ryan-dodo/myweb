@@ -69,7 +69,16 @@ function LoginedPage() {
               size="large"
               block
               icon={<HomeOutlined />}
-              onClick={() => navigate('/ourpage')}
+              onClick={() => {
+                const pageMap = {
+                  'A001': '/ourpage',
+                  'B002': '/page-b',
+                  'C003': '/page-c',
+                };
+                const code = userInfo.invite_code || '';
+                const target = pageMap[code] || '/';
+                navigate(target);
+              }}
               className="action-button"
             >
               进入首页

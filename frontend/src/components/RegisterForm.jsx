@@ -4,6 +4,7 @@ import {
   Input,
   Button,
   Typography,
+    message,
 } from 'antd';
 
 import {
@@ -11,6 +12,7 @@ import {
   LockOutlined,
   SafetyOutlined,
 } from '@ant-design/icons';
+
 
 const { Text } = Typography;
 
@@ -43,6 +45,19 @@ function RegisterForm({ onSwitchLogin }) {
     const data = await response.json();
 
     console.log('④ 后端返回：', data);
+    if (response.ok) {
+        // 3. 注册成功，显示提示信息
+        await message.success('注册成功，请登录！');
+
+        // 4. 调用父组件传来的函数，切换回登录框
+        onSwitchLogin();
+      } else {
+        // 5. 注册失败，显示后端返回的错误信息
+        // 假设后端返回的错误信息在 data.message 中
+        await message.error(data.message || '注册失败');
+      }
+
+
 
   } catch (error) {
     console.error('⑤ 注册请求失败：', error);
