@@ -12,6 +12,9 @@ from database import (
     update_invite_code,
     update_password,
     delete_user_by_username,
+    SessionLocal,
+    User,
+    Message,
 )
 import os
 from dotenv import load_dotenv
@@ -26,6 +29,7 @@ init_database()
 load_dotenv('.env.production' if os.getenv('APP_ENV') == 'production' else '.env')
 # CORS
 origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+print(f"✅ CORS 允许的源: {origins}")  # 加这行
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -159,3 +163,182 @@ def login(data: dict):
             "invite_code": user.invite_code
         }
     }
+# ═══════════════════════════════════════
+# 聊天 API
+# ═══════════════════════════════════════
+
+
+@app.post("/api/chat/messages")
+def create_message(data: dict):
+    """
+    发送聊天消息
+    """
+
+    sender_id = data.get("sender_id")
+    content = data.get("content")
+
+    print("收到发送消息请求")
+    print("发送者ID：", sender_id)
+    print("消息内容：", content)
+
+    # 基础检查
+    if not sender_id:
+        return {
+            "success": False,
+            "message": "用户ID不能为空"
+        }
+
+    if not content or not content.strip():
+        return {
+            "success": False,
+            "message": "消息不能为空"
+        }
+
+    content = content.strip()
+
+    with SessionLocal() as session:
+
+        # 查询发送者
+        user = (
+            session.query(User)
+            .filter(User.id == sender_id)
+            .first()
+        )
+
+        if not user:
+            return {
+                "success": False,
+                "message": "用户不存在"
+            }
+
+        # 创建消息
+        message = Message(
+            sender_id=user.id,
+            content=content
+        )
+
+        session.add(message)
+        session.commit()
+        session.refresh(message)
+
+        print("消息发送成功")
+        print("消息ID：", message.id)
+
+        return {
+            "success": True,
+            "message": "发送成功",
+            "data": {
+                "id": message.id,
+                "sender_id": message.sender_id,
+                "sender_name": user.username,
+                "content": message.content,
+                "created_at": message.created_at
+            }
+        }
+
+
+@app.get("/api/chat/messages")
+def get_messages(
+    limit: int = 50,
+    offset: int = 0
+):
+    """
+    获取聊天记录
+
+    limit:
+        获取多少条消息，默认50条
+
+    offset:
+        从第几条开始，默认0
+    """
+
+    # 防止前端传入奇怪的参数
+    if limit < 1:
+        limit = 1
+
+    if limit > 100:
+        limit = 100
+
+    if offset < 0:
+        offset = 0
+
+    with SessionLocal() as session:
+
+        messages = (
+            session.query(Message)
+            .join(User, Message.sender_id == User.id)
+            .order_by(
+                Message.created_at.asc(),
+                Message.id.asc()
+            )
+            .offset(offset)
+            .limit(limit)
+            .all()
+        )
+
+        message_list = []
+
+        for message in messages:
+
+            message_list.append({
+                "id": message.id,
+                "sender_id": message.sender_id,
+                "sender_name": message.sender.username,
+                "content": message.content,
+                "created_at": message.created_at
+            })
+
+        return {
+            "success": True,
+            "data": message_list,
+            "total": len(message_list)
+        }
+
+
+@app.delete("/api/chat/messages/{message_id}")
+def delete_message(
+    message_id: int,
+    user_id: int
+):
+    """
+    删除聊天消息
+
+    只有发送者本人可以删除自己的消息。
+    """
+
+    print("收到删除消息请求")
+    print("消息ID：", message_id)
+    print("用户ID：", user_id)
+
+    with SessionLocal() as session:
+
+        # 查询消息
+        message = (
+            session.query(Message)
+            .filter(Message.id == message_id)
+            .first()
+        )
+
+        if not message:
+            return {
+                "success": False,
+                "message": "消息不存在"
+            }
+
+        # 检查是不是消息发送者本人
+        if message.sender_id != user_id:
+            return {
+                "success": False,
+                "message": "不能删除其他用户的消息"
+            }
+
+        # 删除消息
+        session.delete(message)
+        session.commit()
+
+        print("消息删除成功")
+
+        return {
+            "success": True,
+            "message": "消息删除成功"
+        }
