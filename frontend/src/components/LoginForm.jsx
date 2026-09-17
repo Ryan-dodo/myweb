@@ -4,37 +4,33 @@ import {
   Input,
   Button,
   Typography,
-    message,
+  message,
 } from 'antd';
 
-  import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   UserOutlined,
   LockOutlined,
 } from '@ant-design/icons';
+import api from '@/api/axios'; // ✅ 已经正确导入
 
 const { Text } = Typography;
 
 function LoginForm({ onSwitchRegister }) {
-  const navigate = useNavigate();  // ← 获取 navigate 函数
+  const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
     console.log('登录信息:', values);
     try {
-      // 调用后端登录接口
-      const response = await fetch('http://127.0.0.1:8000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
+      // --- 核心修改开始 ---
+      // 使用 axios 发送请求，代码更简洁
+      const data = await api.post('/api/login', {
+        username: values.username,
+        password: values.password,
       });
+      // --- 核心修改结束 ---
 
-      const data = await response.json();
       console.log('后端返回:', data);
 
       if (data.success) {
@@ -53,7 +49,8 @@ function LoginForm({ onSwitchRegister }) {
 
     } catch (error) {
       console.error('请求异常:', error);
-      message.error('网络异常，请稍后重试');
+      // 从 error.response.data 中获取后端返回的错误信息
+      message.error(error.response?.data?.message || '网络异常，请稍后重试');
     }
   };
 
@@ -64,7 +61,6 @@ function LoginForm({ onSwitchRegister }) {
         onFinish={handleSubmit}
         autoComplete="off"
       >
-
         {/* 账号 */}
         <Form.Item
           label="账号"

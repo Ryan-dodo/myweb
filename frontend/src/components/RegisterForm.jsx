@@ -4,7 +4,7 @@ import {
   Input,
   Button,
   Typography,
-    message,
+  message,
 } from 'antd';
 
 import {
@@ -13,56 +13,41 @@ import {
   SafetyOutlined,
 } from '@ant-design/icons';
 
+import api from '@/api/axios'; // ✅ 导入 axios 实例
 
 const { Text } = Typography;
 
 function RegisterForm({ onSwitchLogin }) {
 
   const handleSubmit = async (values) => {
-  console.log('① 点击注册，表单数据：', values);
+    console.log('① 点击注册，表单数据：', values);
 
-  try {
-    console.log('② 准备发送请求');
+    try {
+      console.log('② 准备发送请求');
 
-    const response = await fetch(
-      'http://127.0.0.1:8000/api/register',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-          inviteCode: values.inviteCode,
-        }),
-      }
-    );
+      // --- 核心修改开始 ---
+      // 使用 axios 发送请求，代码更简洁
+      const data = await api.post('/api/register', {
+        username: values.username,
+        password: values.password,
+        inviteCode: values.inviteCode,
+      });
+      // --- 核心修改结束 ---
 
-    console.log('③ 收到 HTTP 响应：', response);
-    console.log('HTTP 状态码：', response.status);
+      console.log('③ 收到响应数据：', data);
 
-    const data = await response.json();
+      // 注册成功，显示提示信息
+      await message.success('注册成功，即将跳转登录界面！');
 
-    console.log('④ 后端返回：', data);
-    if (response.ok) {
-        // 3. 注册成功，显示提示信息
-        await message.success('注册成功，即将跳转登录界面！');
+      // 调用父组件传来的函数，切换回登录框
+      onSwitchLogin();
 
-        // 4. 调用父组件传来的函数，切换回登录框
-        onSwitchLogin();
-      } else {
-        // 5. 注册失败，显示后端返回的错误信息
-        // 假设后端返回的错误信息在 data.message 中
-        await message.error(data.message || '注册失败');
-      }
-
-
-
-  } catch (error) {
-    console.error('⑤ 注册请求失败：', error);
-  }
-};
+    } catch (error) {
+      console.error('⑤ 注册请求失败：', error);
+      // 从 error.response.data 中获取后端返回的错误信息
+      await message.error(error.response?.data?.message || '注册失败');
+    }
+  };
 
   return (
     <>
@@ -70,11 +55,10 @@ function RegisterForm({ onSwitchLogin }) {
         layout="vertical"
         onFinish={handleSubmit}
         onFinishFailed={(errorInfo) => {
-    console.log('❌ 表单验证失败：', errorInfo);
-  }}
+          console.log('❌ 表单验证失败：', errorInfo);
+        }}
         autoComplete="off"
       >
-
         {/* 账号 */}
         <Form.Item
           label="账号"
@@ -131,17 +115,10 @@ function RegisterForm({ onSwitchLogin }) {
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
-
-                if (
-                  !value ||
-                  getFieldValue('password') === value
-                ) {
+                if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-
-                return Promise.reject(
-                  new Error('两次输入的密码不一致')
-                );
+                return Promise.reject(new Error('两次输入的密码不一致'));
               },
             }),
           ]}
@@ -188,7 +165,6 @@ function RegisterForm({ onSwitchLogin }) {
       </Form>
 
       <div className="switch-mode">
-
         <Text className="switch-text">
           已有账号？
         </Text>
@@ -199,7 +175,6 @@ function RegisterForm({ onSwitchLogin }) {
         >
           返回登录
         </Button>
-
       </div>
     </>
   );

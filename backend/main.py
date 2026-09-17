@@ -13,8 +13,8 @@ from database import (
     update_password,
     delete_user_by_username,
 )
-
-
+import os
+from dotenv import load_dotenv
 
 app = FastAPI()
 
@@ -22,14 +22,13 @@ app = FastAPI()
 # 初始化数据库
 init_database()
 
-
+# 加载 .env 文件
+load_dotenv('.env.production' if os.getenv('APP_ENV') == 'production' else '.env')
 # CORS
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
