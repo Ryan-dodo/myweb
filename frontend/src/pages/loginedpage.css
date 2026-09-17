@@ -1,0 +1,214 @@
+/* =========================
+   页面容器
+========================= */
+
+.logined-page {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(56, 139, 253, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(137, 87, 229, 0.18),
+      transparent 35%
+    ),
+    #0d1117;
+}
+
+/* =========================
+   内容区域
+========================= */
+
+.logined-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+/* =========================
+   头像
+========================= */
+
+.avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   信息卡片
+========================= */
+
+.info-card {
+  width: 100%;
+
+  margin: 24px 0;
+
+  padding: 20px 24px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+
+  padding-bottom: 0;
+}
+
+.info-item:first-child {
+  padding-top: 0;
+}
+
+/* =========================
+   Ant Design 按钮
+========================= */
+
+.logined-page .ant-btn-primary {
+  height: 46px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  background: #238636;
+
+  box-shadow:
+    0 8px 25px rgba(35, 134, 54, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.logined-page .ant-btn-primary:hover {
+  transform: translateY(-1px);
+
+  background: #2ea043 !important;
+
+  box-shadow:
+    0 12px 30px rgba(46, 160, 67, 0.35);
+}
+
+.logined-page .ant-btn-default {
+  height: 46px;
+
+  border-radius: 9px;
+
+  font-size: 16px;
+  font-weight: 500;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(255, 255, 255, 0.14);
+
+  color: #c9d1d9;
+
+  transition: all 0.2s ease;
+}
+
+.logined-page .ant-btn-default:hover {
+  background: rgba(255, 255, 255, 0.1);
+
+  border-color: rgba(255, 255, 255, 0.25);
+
+  color: #f0f6fc;
+}
+
+/* =========================
+   Ant Design 分割线
+========================= */
+
+.logined-page .ant-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+
+  margin: 8px 0;
+}
+
+/* =========================
+   手机适配
+========================= */
+
+@media (max-width: 500px) {
+  .logined-page {
+    padding: 16px;
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .avatar svg {
+    font-size: 32px !important;
+  }
+
+  .info-card {
+    padding: 16px 20px;
+
+    margin: 20px 0;
+  }
+
+  .info-item {
+    padding: 8px 0;
+  }
+
+  .logined-page .ant-btn-primary,
+  .logined-page .ant-btn-default {
+    height: 44px;
+
+    font-size: 15px;
+  }
+}
