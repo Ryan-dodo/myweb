@@ -4,7 +4,10 @@ import {
   Input,
   Button,
   Typography,
+    message,
 } from 'antd';
+
+  import { useNavigate } from 'react-router-dom';
 
 import {
   UserOutlined,
@@ -14,9 +17,44 @@ import {
 const { Text } = Typography;
 
 function LoginForm({ onSwitchRegister }) {
+  const navigate = useNavigate();  // ← 获取 navigate 函数
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     console.log('登录信息:', values);
+    try {
+      // 调用后端登录接口
+      const response = await fetch('http://127.0.0.1:8000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('后端返回:', data);
+
+      if (data.success) {
+        // 登录成功
+        message.success('登录成功！');
+
+        // 保存用户信息到 localStorage
+        localStorage.setItem('userInfo', JSON.stringify(data.data));
+
+        navigate('/logined');
+
+      } else {
+        // 登录失败
+        message.error(data.message || '登录失败');
+      }
+
+    } catch (error) {
+      console.error('请求异常:', error);
+      message.error('网络异常，请稍后重试');
+    }
   };
 
   return (
