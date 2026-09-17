@@ -1,125 +1,118 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Typography, Space } from 'antd';
-import { UserOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons';
+import { Typography, Space, Tag } from 'antd';
+import {
+  HomeOutlined,
+  InfoCircleOutlined,
+  LogoutOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons';
 import AuthCard from '../components/AuthCard';
 import BackgroundGlow from '../components/BackgroundGlow';
+import './OurPage.css';
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
-const OurPage = () => {
+function OurPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 可以在这里添加页面加载时的逻辑，比如检查登录状态
-    // 示例：
-    // const token = localStorage.getItem('token');
-    // if (!token) {
-    //   navigate('/login');
-    // }
+    const userInfo = localStorage.getItem('userInfo');
+    if (!userInfo) {
+      navigate('/');
+    }
   }, [navigate]);
 
-  const handleLogout = () => {
-    // 清除本地存储的登录信息
-    localStorage.removeItem('token');
-    localStorage.removeItem('userInfo');
-    // 跳转到登录页或首页
-    navigate('/login');
-  };
+  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
-  const handleGoHome = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('userInfo');
     navigate('/');
   };
 
-  const handleGoProfile = () => {
-    navigate('/profile');
-  };
-
   return (
-    <div style={{
-      minHeight: '100vh',
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#0a0a0a'
-    }}>
-      {/* 背景发光效果 */}
-      <BackgroundGlow />
+    <>
+      <div className="logined-page-bg" />
 
-      {/* 主内容卡片 */}
-      <AuthCard
-        title="我们的页面"
-        extra={
-          <Space>
-            <Button
-              type="text"
-              icon={<HomeOutlined />}
-              onClick={handleGoHome}
-              style={{ color: '#fff' }}
-            >
-              首页
-            </Button>
-            <Button
-              type="text"
-              icon={<UserOutlined />}
-              onClick={handleGoProfile}
-              style={{ color: '#fff' }}
-            >
-              个人中心
-            </Button>
-            <Button
-              type="text"
-              icon={<LogoutOutlined />}
-              onClick={handleLogout}
-              danger
-            >
-              退出登录
-            </Button>
-          </Space>
-        }
-      >
-        <div style={{ textAlign: 'center', padding: '20px 0' }}>
-          <Title level={2} style={{ color: '#fff', marginBottom: 16 }}>
-            欢迎来到我们的页面
-          </Title>
-          <Text style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16 }}>
-            这里可以展示团队介绍、项目信息或任何你想要的内容。
-          </Text>
+      <div className="logined-page">
+        <BackgroundGlow />
 
-          <div style={{ marginTop: 40 }}>
-            <Space direction="vertical" size="large" style={{ width: '100%' }}>
-              <div style={{
-                padding: 20,
-                background: 'rgba(255,255,255,0.05)',
-                borderRadius: 8,
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}>
-                <Title level={4} style={{ color: '#fff' }}>关于我们</Title>
-                <Text style={{ color: 'rgba(255,255,255,0.65)' }}>
-                  我们是一个充满激情的团队，致力于为用户提供最好的产品和服务。
-                  我们相信技术创新的力量，并不断努力创造更好的用户体验。
+        <AuthCard>
+          <div className="logined-content">
+            {/* 页面标题 */}
+            <div className="page-header">
+              <FileTextOutlined className="header-icon" />
+              <Title level={3} style={{ color: '#fff', margin: 0 }}>
+                基础内容展示
+              </Title>
+              <Tag color="blue" style={{ marginTop: 8 }}>
+                <InfoCircleOutlined /> 信息页
+              </Tag>
+            </div>
+
+            {/* 内容展示框 */}
+            <div className="content-box">
+              <div className="content-section">
+                <Text strong style={{ color: '#58a6ff', fontSize: 15 }}>
+                  📌 关于我们
                 </Text>
+                <Paragraph style={{ color: 'rgba(255,255,255,0.7)', marginTop: 8, lineHeight: 1.8 }}>
+                  这是一个基础的内容展示页面，用于展示项目信息、公告通知或其他静态内容。
+                  你可以根据实际需求修改这里的文字内容。
+                </Paragraph>
               </div>
 
-              <div style={{
-                padding: 20,
-                background: 'rgba(255,255,255,0.05)',
-                borderRadius: 8,
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}>
-                <Title level={4} style={{ color: '#fff' }}>我们的使命</Title>
-                <Text style={{ color: 'rgba(255,255,255,0.65)' }}>
-                  通过持续创新和卓越服务，为客户创造最大价值，
-                  成为行业内最受信赖的合作伙伴。
+              <div className="content-section">
+                <Text strong style={{ color: '#58a6ff', fontSize: 15 }}>
+                  📋 功能说明
                 </Text>
+                <ul className="content-list">
+                  <li>支持深色主题，护眼舒适</li>
+                  <li>毛玻璃卡片，视觉统一</li>
+                  <li>响应式布局，移动端适配</li>
+                  <li>背景钉死，滚动不跑</li>
+                </ul>
               </div>
+
+              <div className="content-section">
+                <Text strong style={{ color: '#58a6ff', fontSize: 15 }}>
+                  👤 当前用户
+                </Text>
+                <div className="user-info-row">
+                  <span className="user-label">用户名</span>
+                  <span className="user-value">{userInfo.username || '未登录'}</span>
+                </div>
+                <div className="user-info-row">
+                  <span className="user-label">用户ID</span>
+                  <span className="user-value">{userInfo.id || '-'}</span>
+                </div>
+                <div className="user-info-row">
+                  <span className="user-label">邀请码</span>
+                  <span className="user-value">{userInfo.invite_code || '暂无'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 底部操作按钮 */}
+            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <button
+                className="nav-button primary"
+                onClick={() => navigate('/')}
+              >
+                <HomeOutlined /> 返回首页
+              </button>
+              <button
+                className="nav-button secondary"
+                onClick={handleLogout}
+              >
+                <LogoutOutlined /> 退出登录
+              </button>
             </Space>
           </div>
-        </div>
-      </AuthCard>
-    </div>
+        </AuthCard>
+      </div>
+    </>
   );
-};
+}
 
 export default OurPage;

@@ -47,7 +47,7 @@ function RegisterForm({ onSwitchLogin }) {
     console.log('④ 后端返回：', data);
     if (response.ok) {
         // 3. 注册成功，显示提示信息
-        await message.success('注册成功，请登录！');
+        await message.success('注册成功，即将跳转登录界面！');
 
         // 4. 调用父组件传来的函数，切换回登录框
         onSwitchLogin();
