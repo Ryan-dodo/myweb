@@ -4,7 +4,7 @@ import { Button, Typography, Space } from 'antd';
 import { UserOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons';
 import AuthCard from '../components/AuthCard';
 import BackgroundGlow from '../components/BackgroundGlow';
-import './LoginedPage.css';   // ← 加上这行
+import './loginedpage.css';   // ← 加上这行
 
 const { Title, Text } = Typography;
 
