@@ -1,12 +1,12 @@
 // OurPage.jsx
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./OurPage.css";
 
+import "./OurPage.css";
+import api from '@/api/axios'; // 引入和 LoginForm 统一的 api 实例
 // FastAPI 地址
 // const API_BASE_URL = "http://127.0.0.1:8000";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // 模拟群成员数据
 // 注意：这里的 id 必须和数据库 users 表中的 id 对应
 const groupMembers = [
@@ -99,31 +99,27 @@ const currentUserId = userInfo?.id;
   };
 
   // 获取历史聊天记录
-  const loadMessages = async () => {
-    try {
-      setLoading(true);
-      setErrorMessage("");
+ const loadMessages = async () => {
+  try {
+    setLoading(true);
+    setErrorMessage("");
 
-      const response = await axios.get(
-        `${API_BASE_URL}/api/chat/messages`
-      );
+    const data = await api.get('/api/chat/messages');  // ✅ 改用 api
 
-      if (response.data.success) {
-        const backendMessages = response.data.data || [];
-
-        const frontendMessages = backendMessages.map(convertMessage);
-
-        setMessages(frontendMessages);
-      } else {
-        setErrorMessage(response.data.message || "获取聊天记录失败");
-      }
-    } catch (error) {
-      console.error("获取聊天记录失败：", error);
-      setErrorMessage("无法连接聊天服务器");
-    } finally {
-      setLoading(false);
+    if (data.success) {                               // ✅ 不再 .data.data
+      const backendMessages = data.data || [];
+      const frontendMessages = backendMessages.map(convertMessage);
+      setMessages(frontendMessages);
+    } else {
+      setErrorMessage(data.message || "获取聊天记录失败"); // ✅
     }
-  };
+  } catch (error) {
+    console.error("获取聊天记录失败：", error);
+    setErrorMessage("无法连接聊天服务器");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // 页面第一次加载时获取聊天记录
   useEffect(() => {
@@ -132,57 +128,41 @@ const currentUserId = userInfo?.id;
 
   // 发送消息
   const handleSend = async () => {
-    const content = inputText.trim();
+  const content = inputText.trim();
+  if (!content) return;
+  if (!currentUserId) {
+    alert("没有获取到当前用户信息，请重新登录");
+    return;
+  }
 
-    if (!content) {
-      return;
+  try {
+    setSending(true);
+    setErrorMessage("");
+
+    const data = await api.post('/api/chat/messages', {  // ✅ 改用 api
+      sender_id: currentUserId,
+      content: content,
+    });
+
+    if (data.success) {                                  // ✅
+      const newMessage = convertMessage(data.data);      // ✅
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setInputText("");
+      setShowEmoji(false);
+    } else {
+      alert(data.message || "发送失败");                   // ✅
     }
-
-    if (!currentUserId) {
-      alert("没有获取到当前用户信息，请重新登录");
-      return;
+  } catch (error) {
+    console.error("发送消息失败：", error);
+    if (error.response) {
+      alert(error.response?.data?.message || "服务器处理失败");
+    } else {
+      alert("无法连接聊天服务器");
     }
-
-    try {
-      setSending(true);
-      setErrorMessage("");
-
-      const response = await axios.post(
-        `${API_BASE_URL}/api/chat/messages`,
-        {
-          sender_id: currentUserId,
-          content: content,
-        }
-      );
-
-      if (response.data.success) {
-        const newMessage = convertMessage(response.data.data);
-
-        // 将后端返回的真实消息追加到页面
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          newMessage,
-        ]);
-
-        setInputText("");
-        setShowEmoji(false);
-      } else {
-        alert(response.data.message || "发送失败");
-      }
-    } catch (error) {
-      console.error("发送消息失败：", error);
-
-      if (error.response) {
-        alert(
-          error.response.data?.message || "服务器处理失败"
-        );
-      } else {
-        alert("无法连接聊天服务器");
-      }
-    } finally {
-      setSending(false);
-    }
-  };
+  } finally {
+    setSending(false);
+  }
+};
 
   // 回车发送
   const handleKeyDown = (e) => {
