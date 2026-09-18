@@ -5,8 +5,8 @@ import axios from "axios";
 import "./OurPage.css";
 
 // FastAPI 地址
-const API_BASE_URL = "http://127.0.0.1:8000";
-
+// const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // 模拟群成员数据
 // 注意：这里的 id 必须和数据库 users 表中的 id 对应
 const groupMembers = [
