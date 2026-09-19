@@ -18,7 +18,60 @@ backdrop-filter: blur()
 登录成功后显示对应功能按钮自行跳转
 
 管理员支持聊天室功能
+## nignx配置参考
 
+`
+server {
+        listen 80;
+    server_name 122.51.165.233;
+
+    # ========= API反向代理，放在最上面 =========
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # ========= 前端静态页面 =========
+    location / {
+        root /home/ubuntu/myweb/frontend/dist;
+        # 单页应用路由，重点！不要保留原来的 $uri.html
+        try_files $uri $uri/ /index.html;
+    }
+        #
+        # listen 443 ssl default_server;
+        # listen [::]:443 ssl default_server;
+        #
+        # Note: You should disable gzip for SSL traffic.
+        # See: https://bugs.debian.org/773332
+        #
+        # Read up on ssl_ciphers to ensure a secure con
+        # pass PHP scripts to FastCGI server
+        #
+        #location ~ \.php$ {
+        #       include snippets/fastcgi-php.conf;
+        #
+        #       # With php-fpm (or other unix sockets):
+        #       fastcgi_pa
+}`
+
+
+
+## 前端配置文件.env.production 参考
+
+`# 上云后的后端地址之前是/
+VITE_API_BASE_URL=/
+VITE_ENV=production
+`
+
+## 后端配置文件参考 .env.production 参考
+
+`# 后端 .env 文件
+# 允许跨域的前端地址，多个地址用英文逗号分隔
+ALLOWED_ORIGINS=http://122.51.165.233
+`
 ## md语法备忘
 
 | 功能 | 语法 |
