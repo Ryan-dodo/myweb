@@ -24,7 +24,8 @@ backdrop-filter: blur()
 server {
         listen 80;
     server_name 122.51.165.233;
-
+  # 允许最大 10MB 的请求体（按需调整）
+        client_max_body_size 10M;
     # ========= API反向代理，放在最上面 =========
     location /api/ {
         proxy_pass http://127.0.0.1:8000/api/;
@@ -39,23 +40,7 @@ server {
         root /home/ubuntu/myweb/frontend/dist;
         # 单页应用路由，重点！不要保留原来的 $uri.html
         try_files $uri $uri/ /index.html;
-    }
-        #
-        # listen 443 ssl default_server;
-        # listen [::]:443 ssl default_server;
-        #
-        # Note: You should disable gzip for SSL traffic.
-        # See: https://bugs.debian.org/773332
-        #
-        # Read up on ssl_ciphers to ensure a secure con
-        # pass PHP scripts to FastCGI server
-        #
-        #location ~ \.php$ {
-        #       include snippets/fastcgi-php.conf;
-        #
-        #       # With php-fpm (or other unix sockets):
-        #       fastcgi_pa
-}`
+    }`
 
 
 
@@ -98,6 +83,6 @@ source .venv/bin/activate
 ps -ef | grep "fastapi run"
 kill 【进程号】
 ps -ef | grep "fastapi run" | grep -v grep
-nohup .venv/bin/fastapi run > backend.log 2>&1 &
+nohup fastapi run > backend.log 2>&1 &
 
 # 前端常用指令
