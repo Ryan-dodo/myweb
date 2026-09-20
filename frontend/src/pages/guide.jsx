@@ -45,6 +45,20 @@ const menuItems = [
     path: "/setting",
     color: "#79c0ff",
   },
+    {
+    title: "照片墙",
+    icon: "📷",
+    desc: "照片墙",
+    path: "/photography",
+    color: "#7950f1",
+  },
+    {
+    title: "待定",
+    icon: "📷",
+    desc: "照片墙",
+    path: "/setting",
+    color: "#7912ff",
+  },
 ];
 
 export default function Guide() {

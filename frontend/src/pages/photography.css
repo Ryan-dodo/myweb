@@ -1,0 +1,600 @@
+
+/* ================================================= */
+/* 页面 */
+/* ================================================= */
+
+.photography-page {
+  width: 100vw;
+  height: 100vh;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(88, 166, 255, 0.08),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(210, 168, 255, 0.08),
+      transparent 35%
+    ),
+    #0d1117;
+}
+
+
+/* ================================================= */
+/* 背景霓虹 */
+/* ================================================= */
+
+.photo-glow {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter: blur(120px);
+
+  opacity: 0.28;
+
+  pointer-events: none;
+}
+
+
+/* 左上 */
+
+.photo-glow-1 {
+  width: 500px;
+  height: 500px;
+
+  background: #58a6ff;
+
+  top: -220px;
+  left: -180px;
+}
+
+
+/* 右下 */
+
+.photo-glow-2 {
+  width: 500px;
+  height: 500px;
+
+  background: #d2a8ff;
+
+  right: -220px;
+  bottom: -220px;
+}
+
+
+/* 中间 */
+
+.photo-glow-3 {
+  width: 400px;
+  height: 400px;
+
+  background: #3fb950;
+
+  top: 35%;
+  left: 45%;
+}
+
+
+/* 右上 */
+
+.photo-glow-4 {
+  width: 320px;
+  height: 320px;
+
+  background: #f778ba;
+
+  top: 5%;
+  right: 5%;
+}
+
+
+/* ================================================= */
+/* 标题 */
+/* ================================================= */
+
+.photography-header {
+  position: absolute;
+
+  top: 45px;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+
+  text-align: center;
+
+  pointer-events: none;
+}
+
+
+.photography-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 44px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 0 15px rgba(255,255,255,0.15),
+    0 0 35px rgba(88,166,255,0.25);
+}
+
+
+.photography-header p {
+  margin: 10px 0 0;
+
+  color: #8b949e;
+
+  font-size: 14px;
+
+  letter-spacing: 3px;
+}
+
+
+/* ================================================= */
+/* 照片舞台 */
+/* ================================================= */
+
+.photo-stage {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: 10;
+
+  perspective: 1200px;
+
+  pointer-events: none;
+}
+
+
+/* ================================================= */
+/* 单张照片 */
+/* ================================================= */
+
+.falling-photo {
+
+  position: absolute;
+
+  left: var(--photo-left);
+
+  top: var(--photo-top);
+
+  width: var(--photo-width);
+
+  z-index: var(--photo-z);
+
+  transform:
+    translate(-50%, -150vh)
+    rotate(0deg);
+
+  animation:
+    photo-fall
+    1.4s
+    cubic-bezier(.22,.75,.25,1)
+    forwards;
+
+  animation-delay: var(--photo-delay);
+
+  pointer-events: auto;
+}
+
+
+/* ================================================= */
+/* 照片卡片 */
+/* ================================================= */
+
+.photo-card {
+
+  width: 100%;
+
+  padding: 9px;
+
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.96),
+      rgba(235,235,240,0.92)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.9);
+
+  box-shadow:
+
+    0 15px 35px
+    rgba(0,0,0,0.45),
+
+    0 0 20px
+    rgba(255,255,255,0.08),
+
+    inset 0 0 20px
+    rgba(255,255,255,0.25);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+
+/* ================================================= */
+/* 图片 */
+/* ================================================= */
+
+.photo-card img {
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  max-height: 300px;
+
+  object-fit: contain;
+
+  user-select: none;
+
+  border-radius: 3px;
+}
+
+
+/* ================================================= */
+/* 照片悬停 */
+/* ================================================= */
+
+.falling-photo:hover {
+
+  z-index: 9999;
+
+}
+
+
+.falling-photo:hover .photo-card {
+
+  transform:
+    scale(1.08)
+    rotate(0deg)
+    translateY(-10px);
+
+  box-shadow:
+
+    0 25px 55px
+    rgba(0,0,0,0.6),
+
+    0 0 30px
+    rgba(88,166,255,0.3);
+}
+
+
+/* ================================================= */
+/* 下落动画 */
+/* ================================================= */
+
+@keyframes photo-fall {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      translate(
+        -50%,
+        -150vh
+      )
+      rotate(
+        calc(
+          var(--photo-rotate) * 0.2
+        )
+      )
+      scale(0.85);
+  }
+
+
+  55% {
+
+    opacity: 1;
+
+    transform:
+      translate(
+        -50%,
+        20px
+      )
+      rotate(
+        calc(
+          var(--photo-rotate) * 1.15
+        )
+      )
+      scale(1.02);
+  }
+
+
+  75% {
+
+    transform:
+      translate(
+        -50%,
+        -8px
+      )
+      rotate(
+        calc(
+          var(--photo-rotate) * 0.92
+        )
+      )
+      scale(1);
+  }
+
+
+  100% {
+
+    opacity: 1;
+
+    transform:
+      translate(
+        -50%,
+        0
+      )
+      rotate(
+        var(--photo-rotate)
+      )
+      scale(1);
+  }
+
+}
+
+
+/* ================================================= */
+/* 空照片提示 */
+/* ================================================= */
+
+.empty-photo {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  text-align: center;
+
+  padding: 50px;
+
+  border-radius: 28px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.1);
+
+  background:
+    rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,0.35);
+
+  color: white;
+}
+
+
+.empty-icon {
+
+  font-size: 60px;
+
+  margin-bottom: 15px;
+}
+
+
+.empty-photo h2 {
+
+  margin: 0 0 10px;
+
+  font-size: 24px;
+}
+
+
+.empty-photo p {
+
+  margin: 0;
+
+  color: #8b949e;
+}
+
+
+/* ================================================= */
+/* 控制区域 */
+/* ================================================= */
+
+.photo-controls {
+
+  position: absolute;
+
+  right: 28px;
+  bottom: 28px;
+
+  z-index: 10000;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+  align-items: flex-end;
+}
+
+
+/* ================================================= */
+/* 控制按钮 */
+/* ================================================= */
+
+.photo-control-button {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 120px;
+
+  padding: 11px 16px;
+
+  box-sizing: border-box;
+
+  border-radius: 14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.12);
+
+  background:
+    rgba(255,255,255,0.07);
+
+  backdrop-filter: blur(18px);
+
+  color: #ffffff;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0,0,0,0.25);
+
+  transition:
+    all .25s ease;
+}
+
+
+.photo-control-button:hover {
+
+  background:
+    rgba(255,255,255,0.13);
+
+  border-color:
+    rgba(88,166,255,0.6);
+
+  box-shadow:
+    0 0 25px
+    rgba(88,166,255,0.25);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.photo-control-button span:first-child {
+
+  font-size: 20px;
+}
+
+
+/* ================================================= */
+/* 文件上传 input */
+/* ================================================= */
+
+.photo-control-button input {
+
+  display: none;
+}
+
+
+/* ================================================= */
+/* 手机 */
+/* ================================================= */
+
+@media (max-width: 768px) {
+
+  .photography-header {
+
+    top: 25px;
+  }
+
+
+  .photography-header h1 {
+
+    font-size: 32px;
+  }
+
+
+  .photography-header p {
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .photo-card {
+
+    padding: 7px;
+  }
+
+
+  .falling-photo {
+
+    width: 160px;
+  }
+
+
+  .photo-card img {
+
+    max-height: 260px;
+  }
+
+
+  .photo-controls {
+
+    right: 15px;
+
+    bottom: 15px;
+  }
+
+
+  .photo-control-button {
+
+    min-width: auto;
+
+    padding: 10px 13px;
+  }
+
+
+  .photo-control-button span:last-child {
+
+    display: none;
+  }
+
+
+  .empty-photo {
+
+    width: 75%;
+
+    padding: 30px 20px;
+  }
+
+}
