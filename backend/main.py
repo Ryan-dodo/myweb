@@ -1,7 +1,10 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
+import uuid  # 新增唯一标识符生成
+from fastapi.responses import JSONResponse  # 新增 JSONResponse
+from pathlib import Path  # 新增 Path，用于处理跨平台路径
+from datetime import datetime  # 新增时间处理
 from database import (
     init_database,
     create_user,
@@ -342,3 +345,77 @@ def delete_message(
             "success": True,
             "message": "消息删除成功"
         }
+
+
+# ================= 配置上传目录 =================
+# 假设 backend 和 frontend 在同一级目录 myweb 下
+# __file__ 是 backend/main.py，parent 是 backend，parent.parent 是 myweb
+UPLOAD_DIR = Path(__file__).parent.parent / "frontend" / "src" / "photos"
+
+# 允许的图片格式
+ALLOWED_TYPES = {"image/jpeg", "image/png", "image/gif", "image/webp"}
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
+
+# ================= 图片上传接口 =================
+@app.post("/api/photos/upload")
+async def upload_photo(file: UploadFile = File(...)):
+    """
+    上传图片到本地
+    """
+    try:
+        # 1. 验证文件类型
+        if file.content_type not in ALLOWED_TYPES:
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "success": False,
+                    "message": f"不支持的文件类型: {file.content_type}，仅支持 JPEG/PNG/GIF/WebP"
+                }
+            )
+
+        # 2. 读取文件内容并检查大小
+        content = await file.read()
+        if len(content) > MAX_FILE_SIZE:
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "success": False,
+                    "message": f"文件过大，最大支持 {MAX_FILE_SIZE // 1024 // 1024}MB"
+                }
+            )
+
+        # 3. 生成唯一文件名（防止重名）
+        file_extension = Path(file.filename).suffix
+        unique_filename = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}{file_extension}"
+
+        # 4. 确保上传目录存在
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+        # 5. 保存文件
+        file_path = UPLOAD_DIR / unique_filename
+        with open(file_path, "wb") as buffer:
+            buffer.write(content)
+
+        # 6. 返回相对路径（前端可直接使用）
+        relative_path = f"photos/{unique_filename}"
+
+        print(f"图片上传成功: {relative_path}")
+
+        return {
+            "success": True,
+            "message": "上传成功",
+            "data": {
+                "filename": unique_filename,
+                "path": relative_path,
+            }
+        }
+
+    except Exception as e:
+        print(f"上传失败: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "message": f"上传失败: {str(e)}"
+            }
+        )

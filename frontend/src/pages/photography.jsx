@@ -1,4 +1,4 @@
-
+import api from "../api/axios";
 import { useEffect, useState } from "react";
 import "./photography.css";
 
@@ -404,58 +404,38 @@ export default function Photography() {
   // 上传图片
   // ========================================
 
-  const handleUpload =
-    (event) => {
+const handleUpload = async (event) => {
+  const files = Array.from(
+    event.target.files || []
+  );
 
-      const files =
-        Array.from(
-          event.target.files || []
-        );
+  if (files.length === 0) {
+    return;
+  }
 
+  try {
+    for (const file of files) {
+      const formData = new FormData();
 
-      if (
-        files.length === 0
-      ) {
+      formData.append("file", file);
 
-        return;
-      }
-
-
-      setPhotoItems(
-        (prev) => {
-
-          const uploadedPhotos =
-            files.map(
-              (file, index) => {
-
-                const url =
-                  URL.createObjectURL(
-                    file
-                  );
-
-
-                return createPhotoData(
-                  url,
-                  prev.length + index,
-                  prev
-                );
-
-              }
-            );
-
-
-          return [
-            ...prev,
-            ...uploadedPhotos,
-          ];
-
-        }
+      await api.post(
+        "/api/photos/upload",
+        formData
       );
+    }
 
+    // 所有图片上传完成后刷新页面
+    window.location.reload();
 
-      // 清空 input
-      event.target.value = "";
-    };
+  } catch (error) {
+    console.error("图片上传失败：", error);
+
+    alert("图片上传失败，请检查后端是否正常运行");
+  }
+
+  event.target.value = "";
+};
 
 
   // ========================================
