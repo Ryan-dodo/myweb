@@ -56,7 +56,7 @@ export default function Guide() {
       <div className="glow glow-3" />
 
       <header className="guide-hero">
-        <h1>🚀 Jiatao Cloud Hub</h1>
+        <h1>🚀 Cloud Hub</h1>
         <p>Personal Navigation Center</p>
       </header>
 
