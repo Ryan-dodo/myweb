@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-
 import "./Guide.css";
 
 const menuItems = [
@@ -14,7 +13,7 @@ const menuItems = [
     title: "聊天室",
     icon: "💬",
     desc: "进入群聊和实时聊天",
-    path: "/chat",
+    path: "/ourpage",
     color: "#3fb950",
   },
   {
@@ -47,59 +46,41 @@ const menuItems = [
   },
 ];
 
-function Guide() {
+export default function Guide() {
   const navigate = useNavigate();
 
-  const handleJump = (path) => {
-    navigate(path);
-  };
-
   return (
-    <div className="guide-page-container">
-      {/* 背景光晕 */}
-      <div className="glow glow-1"></div>
-      <div className="glow glow-2"></div>
-      <div className="glow glow-3"></div>
+    <div className="guide-page">
+      <div className="glow glow-1" />
+      <div className="glow glow-2" />
+      <div className="glow glow-3" />
 
-      <div className="guide-glass-card">
+      <header className="guide-hero">
+        <h1>🚀 Jiatao Cloud Hub</h1>
+        <p>Personal Navigation Center</p>
+      </header>
 
-        {/* 顶部区域 */}
-        <div className="guide-header">
-          <h1 className="guide-title">
-            🚀 Jiatao Cloud Hub
-          </h1>
+      <section className="guide-dashboard">
+        {menuItems.map((item) => (
+          <div
+            key={item.path}
+            className="dashboard-tile"
+            style={{
+              "--tile-color": item.color,
+            }}
+            onClick={() => navigate(item.path)}
+          >
+            <span className="tile-icon">
+              {item.icon}
+            </span>
 
-          <p className="guide-subtitle">
-            Personal Navigation Center
-          </p>
-        </div>
-
-        {/* 功能入口 */}
-        <div className="guide-grid">
-          {menuItems.map((item) => (
-            <div
-              key={item.path}
-              className="guide-item"
-              onClick={() => handleJump(item.path)}
-              style={{
-                "--glow-color": item.color,
-              }}
-            >
-              <div className="guide-icon">
-                {item.icon}
-              </div>
-
-              <div className="guide-content">
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
+            <div className="tile-info">
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
             </div>
-          ))}
-        </div>
-
-      </div>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
-
-export default Guide;
