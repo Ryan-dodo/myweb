@@ -1,0 +1,255 @@
+/* ========== 导航首页 ========== */
+
+.guide-page-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  background: #0d1117;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+/* ===== 背景霓虹 ===== */
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+}
+
+.glow-1 {
+  width: 400px;
+  height: 400px;
+
+  background: #58a6ff;
+
+  top: -100px;
+  left: -100px;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+
+  background: #d2a8ff;
+
+  right: -120px;
+  bottom: -100px;
+}
+
+.glow-3 {
+  width: 300px;
+  height: 300px;
+
+  background: #3fb950;
+
+  top: 30%;
+  left: 60%;
+}
+
+/* ===== 主卡片 ===== */
+
+.guide-glass-card {
+  position: relative;
+  z-index: 1;
+
+  width: 90%;
+  max-width: 1200px;
+
+  padding: 40px;
+
+  background: rgba(255,255,255,0.04);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.3);
+}
+
+/* ===== 标题 ===== */
+
+.guide-header {
+  text-align: center;
+
+  margin-bottom: 40px;
+}
+
+.guide-title {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 42px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.guide-subtitle {
+  color: #8b949e;
+
+  margin-top: 12px;
+
+  font-size: 15px;
+}
+
+/* ===== 功能卡片区域 ===== */
+
+.guide-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(350px, 1fr));
+
+  gap: 28px;
+}
+
+/* ===== 功能入口 ===== */
+.guide-item {
+  position: relative;
+
+  height: 180px;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  transition: all 0.3s ease;
+}
+
+.guide-item:hover {
+  transform: translateY(-6px);
+
+  border-color: var(--glow-color);
+
+  box-shadow:
+    0 0 20px var(--glow-color),
+    0 0 40px rgba(255,255,255,0.1),
+    0 0 60px var(--glow-color);
+}
+
+/* 顶部流光 */
+
+.guide-item::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glow-color),
+    transparent
+  );
+
+  transition: 0.5s;
+}
+
+.guide-item:hover::before {
+  left: 100%;
+}
+
+.guide-icon {
+  font-size: 42px;
+
+  margin-bottom: 18px;
+
+  transition: all 0.3s;
+}
+
+.guide-item:hover .guide-icon {
+  transform: scale(1.2);
+
+  filter:
+    drop-shadow(
+      0 0 12px var(--glow-color)
+    );
+}
+
+.guide-content h3 {
+  color: #ffffff;
+
+  margin: 0 0 10px;
+
+  font-size: 20px;
+}
+
+.guide-content p {
+  margin: 0;
+
+  color: #8b949e;
+
+  line-height: 1.6;
+
+  font-size: 14px;
+}
+
+/* ===== 响应式 ===== */
+
+@media (max-width: 768px) {
+
+ .guide-glass-card {
+  position: relative;
+  z-index: 1;
+
+  width: 90%;
+  max-width: 1400px;
+
+  height: 85vh;
+
+  padding: 32px;
+
+  overflow-y: auto;
+
+  background: rgba(255,255,255,0.04);
+
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+
+  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+}
+
+.guide-glass-card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.guide-glass-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.guide-glass-card::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 999px;
+}
+
+.guide-glass-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.4);
+}

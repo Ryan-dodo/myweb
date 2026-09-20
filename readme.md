@@ -90,3 +90,7 @@ ALLOWED_ORIGINS=http://122.51.165.233
 | 表格 | `\| 列1 \| 列2 \|` |
 | 分割线 | `---` |
 
+# 后端常用指令
+pip install -r requirements.txt
+pip freeze > requirements.txt
+# 前端常用指令
