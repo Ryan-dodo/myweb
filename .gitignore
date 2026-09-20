@@ -4,3 +4,4 @@ dist/
 /backend/.venv/
 /backend/myweb.db
 /backend/.env
+/githubpassword.md
