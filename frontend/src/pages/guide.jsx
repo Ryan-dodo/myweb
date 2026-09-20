@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./Guide.css";
+import "./guide.css";
 
 const menuItems = [
   {
