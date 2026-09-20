@@ -175,12 +175,18 @@ const currentUserId = userInfo?.id;
   return (
     <div className="chat-page-container">
       {/* 背景光晕 */}
+
       <div className="glow glow-1"></div>
       <div className="glow glow-2"></div>
       <div className="glow glow-3"></div>
 
+
       {/* 主聊天容器 */}
       <div className="chat-glass-card">
+        <div className="page-title">
+      <h1>聊天室</h1>
+      </div>
+
         {/* 顶部群聊标题栏 */}
         <div className="chat-header">
           <div className="header-left">

@@ -71,7 +71,7 @@ function LoginedPage() {
               icon={<HomeOutlined />}
               onClick={() => {
                 const pageMap = {
-                  'A001': '/ourpage',
+                  'A001': '/guide',
                   'B002': '/page-b',
                   'C003': '/page-c',
                 };
