@@ -7,7 +7,7 @@ const menuItems = [
     title: "个人中心",
     icon: "👤",
     desc: "查看个人资料与账户信息",
-    path: "/profile",
+    path: "/logined",
     color: "#58a6ff",
   },
   {
@@ -55,7 +55,7 @@ const menuItems = [
     {
     title: "待定",
     icon: "📷",
-    desc: "照片墙",
+    desc: "待定",
     path: "/setting",
     color: "#7912ff",
   },
