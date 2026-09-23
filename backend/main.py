@@ -5,6 +5,7 @@ import uuid  # 新增唯一标识符生成
 from fastapi.responses import JSONResponse  # 新增 JSONResponse
 from pathlib import Path  # 新增 Path，用于处理跨平台路径
 from datetime import datetime  # 新增时间处理
+from openai import OpenAI
 from database import (
     init_database,
     create_user,
@@ -419,3 +420,100 @@ async def upload_photo(file: UploadFile = File(...)):
                 "message": f"上传失败: {str(e)}"
             }
         )
+# ========================================
+# DeepSeek
+# ========================================
+
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+
+client = OpenAI(
+    api_key=DEEPSEEK_API_KEY,
+    base_url="https://api.deepseek.com",
+)
+
+
+# ========================================
+# AI 对话
+# ========================================
+
+@app.post("/api/ai/chat")
+def ai_chat(data: dict):
+
+    print("收到 AI 请求")
+    print("请求数据：", data)
+
+    message = data.get("message")
+    user_id = data.get("user_id")
+
+    # 检查消息
+    if not message:
+        return {
+            "success": False,
+            "message": "消息不能为空",
+        }
+
+    print("用户ID：", user_id)
+    print("用户消息：", message)
+
+
+    try:
+
+        # ========================================
+        # 调用 DeepSeek
+        # ========================================
+
+        response = client.chat.completions.create(
+            model="deepseek-flash",
+
+            messages=[
+                {
+                    "role": "system",
+                    "content": "你是一个 helpful assistant。",
+                },
+                {
+                    "role": "user",
+                    "content": message,
+                },
+            ],
+
+            reasoning_effort="high",
+
+            extra_body={
+                "thinking": {
+                    "type": "enabled"
+                }
+            },
+
+            stream=False,
+        )
+
+
+        # ========================================
+        # 获取 AI 回复
+        # ========================================
+
+        ai_message = (
+            response
+            .choices[0]
+            .message
+            .content
+        )
+
+
+        print("AI 回复：", ai_message)
+
+
+        return {
+            "success": True,
+            "message": ai_message,
+        }
+
+
+    except Exception as error:
+
+        print("DeepSeek API 调用失败：", error)
+
+        return {
+            "success": False,
+            "message": "AI 服务调用失败",
+        }

@@ -1,3 +1,4 @@
+
 {/* 登录表 */}
 import {
   Form,
@@ -13,7 +14,8 @@ import {
   UserOutlined,
   LockOutlined,
 } from '@ant-design/icons';
-import api from '@/api/axios'; // ✅ 已经正确导入
+
+import api from '@/api/axios';
 
 const { Text } = Typography;
 
@@ -22,14 +24,12 @@ function LoginForm({ onSwitchRegister }) {
 
   const handleSubmit = async (values) => {
     console.log('登录信息:', values);
+
     try {
-      // --- 核心修改开始 ---
-      // 使用 axios 发送请求，代码更简洁
       const data = await api.post('/api/login', {
         username: values.username,
         password: values.password,
       });
-      // --- 核心修改结束 ---
 
       console.log('后端返回:', data);
 
@@ -37,8 +37,11 @@ function LoginForm({ onSwitchRegister }) {
         // 登录成功
         message.success('登录成功！');
 
-        // 保存用户信息到 localStorage
-        localStorage.setItem('userInfo', JSON.stringify(data.data));
+        // 保存用户信息
+        localStorage.setItem(
+          'userInfo',
+          JSON.stringify(data.data)
+        );
 
         navigate('/logined');
 
@@ -49,9 +52,17 @@ function LoginForm({ onSwitchRegister }) {
 
     } catch (error) {
       console.error('请求异常:', error);
-      // 从 error.response.data 中获取后端返回的错误信息
-      message.error(error.response?.data?.message || '网络异常，请稍后重试');
+
+      message.error(
+        error.response?.data?.message ||
+        '网络异常，请稍后重试'
+      );
     }
+  };
+
+  // 游客模式
+  const handleGuestLogin = () => {
+    navigate('/guide');
   };
 
   return (
@@ -107,6 +118,17 @@ function LoginForm({ onSwitchRegister }) {
             className="submit-button"
           >
             登录
+          </Button>
+        </Form.Item>
+
+        {/* 游客模式 */}
+        <Form.Item>
+          <Button
+            type="link"
+            block
+            onClick={handleGuestLogin}
+          >
+            游客模式（免登录）
           </Button>
         </Form.Item>
 

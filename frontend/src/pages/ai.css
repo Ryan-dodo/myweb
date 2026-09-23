@@ -1,0 +1,727 @@
+
+/* ========================================
+   AI 页面
+======================================== */
+
+.ai-page {
+  width: 100%;
+
+  min-height: 100vh;
+
+  background: #0d1117;
+
+  position: relative;
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: hidden;
+}
+
+
+/* ========================================
+   背景霓虹
+======================================== */
+
+.ai-glow {
+  position: fixed;
+
+  border-radius: 50%;
+
+  filter: blur(120px);
+
+  opacity: 0.30;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+.ai-glow-1 {
+  width: 450px;
+  height: 450px;
+
+  background: #58a6ff;
+
+  top: -150px;
+  left: -150px;
+}
+
+
+.ai-glow-2 {
+  width: 400px;
+  height: 400px;
+
+  background: #d2a8ff;
+
+  right: -120px;
+  bottom: -120px;
+}
+
+
+.ai-glow-3 {
+  width: 350px;
+  height: 350px;
+
+  background: #3fb950;
+
+  top: 35%;
+  left: 50%;
+}
+
+
+/* ========================================
+   顶部
+======================================== */
+
+.ai-header {
+  width: 100%;
+
+  height: 80px;
+
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+
+  padding: 0 40px;
+
+  position: relative;
+
+  z-index: 10;
+
+  display: flex;
+
+  align-items: center;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  background:
+    rgba(13, 17, 23, 0.75);
+
+  backdrop-filter: blur(18px);
+}
+
+
+/* ========================================
+   返回按钮
+======================================== */
+
+.ai-back-button {
+  height: 40px;
+
+  padding: 0 14px;
+
+  margin-right: 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  color: #8b949e;
+
+  background: transparent;
+
+  font-size: 15px;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+
+.ai-back-button:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+}
+
+
+/* ========================================
+   AI 标题
+======================================== */
+
+.ai-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.ai-title-icon {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  font-size: 23px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88, 166, 255, 0.25),
+      rgba(210, 168, 255, 0.25)
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow:
+    0 0 25px rgba(88, 166, 255, 0.15);
+}
+
+
+.ai-title h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 22px;
+
+  font-weight: 600;
+}
+
+
+.ai-title p {
+  margin: 4px 0 0;
+
+  color: #8b949e;
+
+  font-size: 12px;
+}
+
+
+/* ========================================
+   主区域
+======================================== */
+
+.ai-main {
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  padding: 24px 30px 30px;
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  z-index: 2;
+
+  flex: 1;
+
+  display: flex;
+
+  min-height: 0;
+}
+
+
+/* ========================================
+   聊天面板
+======================================== */
+
+.ai-chat-panel {
+  width: 100%;
+
+  min-height: 650px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  border-radius: 24px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.09);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+}
+
+
+/* ========================================
+   消息区域
+======================================== */
+
+.ai-messages {
+  flex: 1;
+
+  min-height: 400px;
+
+  overflow-y: auto;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+}
+
+
+/* 滚动条 */
+
+.ai-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-messages::-webkit-scrollbar-thumb {
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-radius: 10px;
+}
+
+
+/* ========================================
+   消息行
+======================================== */
+
+.ai-message-row {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-bottom: 24px;
+}
+
+
+.ai-message {
+  justify-content: flex-start;
+}
+
+
+.user-message {
+  justify-content: flex-end;
+}
+
+
+/* ========================================
+   头像
+======================================== */
+
+.message-avatar {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  font-size: 18px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.ai-avatar {
+  background:
+    rgba(88, 166, 255, 0.12);
+
+  box-shadow:
+    0 0 18px rgba(88, 166, 255, 0.12);
+}
+
+
+.user-avatar {
+  background:
+    rgba(210, 168, 255, 0.12);
+}
+
+
+/* ========================================
+   消息内容
+======================================== */
+
+.message-content {
+  max-width: 75%;
+}
+
+
+.message-name {
+  margin-bottom: 6px;
+
+  color: #8b949e;
+
+  font-size: 12px;
+}
+
+
+.message-bubble {
+  padding: 12px 16px;
+
+  border-radius: 16px;
+
+  color: #e6edf3;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.user-message .message-bubble {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(88, 166, 255, 0.18),
+      rgba(88, 166, 255, 0.08)
+    );
+
+  border-color:
+    rgba(88, 166, 255, 0.2);
+}
+
+
+/* ========================================
+   AI 加载
+======================================== */
+
+.ai-loading {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  min-width: 45px;
+}
+
+
+.loading-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #8b949e;
+
+  animation: ai-loading 1.2s infinite;
+}
+
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+
+@keyframes ai-loading {
+
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+
+    transform: translateY(-3px);
+  }
+}
+
+
+/* ========================================
+   输入区域
+======================================== */
+
+.ai-input-area {
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 12px;
+
+  padding: 18px 20px 10px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.07);
+
+  background:
+    rgba(13, 17, 23, 0.35);
+}
+
+
+/* ========================================
+   输入框
+======================================== */
+
+.ai-input-area textarea {
+  flex: 1;
+
+  min-height: 44px;
+
+  max-height: 140px;
+
+  padding: 11px 14px;
+
+  box-sizing: border-box;
+
+  resize: none;
+
+  outline: none;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 14px;
+
+  color: #e6edf3;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+
+  transition: 0.25s;
+}
+
+
+.ai-input-area textarea::placeholder {
+  color: #6e7681;
+}
+
+
+.ai-input-area textarea:focus {
+  border-color:
+    rgba(88, 166, 255, 0.6);
+
+  box-shadow:
+    0 0 15px
+    rgba(88, 166, 255, 0.1);
+}
+
+
+.ai-input-area textarea:disabled {
+  opacity: 0.6;
+}
+
+
+/* ========================================
+   发送按钮
+======================================== */
+
+.ai-send-button {
+  height: 44px;
+
+  min-width: 90px;
+
+  padding: 0 18px;
+
+  border: 0;
+
+  border-radius: 12px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #238636,
+      #2ea043
+    );
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+
+.ai-send-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(63, 185, 80, 0.3);
+}
+
+
+.ai-send-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.35;
+}
+
+
+/* ========================================
+   输入提示
+======================================== */
+
+.ai-input-tip {
+  padding: 0 20px 14px;
+
+  text-align: center;
+
+  color: #484f58;
+
+  font-size: 11px;
+}
+
+
+/* ========================================
+   手机
+======================================== */
+
+@media (max-width: 768px) {
+
+  .ai-header {
+    height: 68px;
+
+    padding: 0 16px;
+  }
+
+
+  .ai-back-button {
+    margin-right: 10px;
+
+    padding: 0 8px;
+  }
+
+
+  .ai-back-button span {
+    display: none;
+  }
+
+
+  .ai-title {
+    gap: 10px;
+  }
+
+
+  .ai-title-icon {
+    width: 38px;
+    height: 38px;
+
+    font-size: 19px;
+  }
+
+
+  .ai-title h1 {
+    font-size: 19px;
+  }
+
+
+  .ai-title p {
+    display: none;
+  }
+
+
+  .ai-main {
+    padding: 12px;
+  }
+
+
+  .ai-chat-panel {
+    min-height: 600px;
+
+    border-radius: 18px;
+  }
+
+
+  .ai-messages {
+    padding: 20px 16px;
+  }
+
+
+  .message-content {
+    max-width: 82%;
+  }
+
+
+  .message-avatar {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 10px;
+  }
+
+
+  .message-bubble {
+    font-size: 14px;
+
+    padding: 10px 13px;
+  }
+
+
+  .ai-input-area {
+    padding: 12px 12px 8px;
+
+    gap: 8px;
+  }
+
+
+  .ai-send-button {
+    min-width: 65px;
+
+    height: 42px;
+
+    padding: 0 12px;
+  }
+
+
+  .ai-input-tip {
+    padding-bottom: 10px;
+  }
+
+}

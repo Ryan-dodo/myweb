@@ -4,6 +4,7 @@ import LoginedPage from './pages/LoginedPage';
 import OurPage from './pages/OurPage';
 import GuidePage from './pages/guide';
 import Photography from "./pages/photography";
+import AI from "@/pages/ai.jsx";
 // ✅ 正确路径：App.jsx 在 src/ 下，components 也在 src/ 下
 
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/logined" element={<LoginedPage />} />
         <Route path="/ourpage" element={<OurPage />} />
         <Route path="/guide" element={<GuidePage />} />
+          <Route path="/ai" element={<AI />} />
           <Route path="/photography" element={<Photography />} />
       </Routes>
     </BrowserRouter>
