@@ -100,12 +100,15 @@ export default function AI() {
     try {
 
       const data = await api.post(
-        "/api/ai/chat",
-        {
-          message: text,
-          user_id: userInfo?.id || null,
-        }
-      );
+      "/api/ai/chat",
+      {
+        message: text,
+        user_id: userInfo?.id || null,
+      },
+      {
+        timeout: 120000,
+      }
+    );
 
 
       console.log("AI 后端返回:", data);

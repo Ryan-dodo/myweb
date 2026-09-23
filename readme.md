@@ -76,9 +76,10 @@ ALLOWED_ORIGINS=http://122.51.165.233
 | 分割线 | `---` |
 
 # 后端常用指令
+source .venv/bin/activate
 pip install -r requirements.txt
 pip freeze > requirements.txt
-source .venv/bin/activate
+
 
 ps -ef | grep "fastapi run"
 kill 【进程号】
