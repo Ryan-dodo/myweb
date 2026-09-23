@@ -39,7 +39,7 @@ export default function AI() {
     {
       id: 1,
       role: "ai",
-      content: "你好，我是 AI 助手。有什么可以帮助你的吗？",
+      content: "你好，我是 AI 助手。有什么可以帮助你的吗（暂不支持上下文）？",
     },
   ]);
 
